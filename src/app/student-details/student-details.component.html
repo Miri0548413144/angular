@@ -1,0 +1,24 @@
+<div class="card" *ngIf="student">
+    <div class="card-body">
+        <form>
+            <div class="mb-3">
+              <label for="name" class="form-label">Student's name:  </label>
+              <input type="text" class="form-control" id="b=name" [value]="student.lastName">
+            </div>
+            <button type="submit" class="btn btn-primary" (click)="saveNewStudent()">save</button>
+          </form>
+       student's details: 
+       <br>
+       id: {{student.id}}
+       <br>
+       lastName: {{student.lastName}}
+       <br>
+       firstName: {{student.firstName}}
+       <br >
+       the student is: {{student.status}}
+       <div *ngIf="student.status==='inactive'">
+       <br >
+       departureDate: {{student.departureDate}}
+    </div>
+    </div>
+</div>
