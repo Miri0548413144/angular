@@ -1,0 +1,13 @@
+<h3>test-history</h3>
+<div>average: {{this.avgId}}</div>
+<ul class="list-group">
+    <li *ngFor="let test of tests" class="list-group-item">
+        <div class="row">
+            <div class="col-1">{{test.testId}}</div>
+            <div class="col-2">{{test.testDate}}</div>
+            <div class="col-2">{{test.description}}</div>
+            <div class="col-1">{{test.mark}}</div>
+        </div>
+    </li>
+</ul>
+

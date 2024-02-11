@@ -1,41 +1,54 @@
-import { Component,OnInit } from '@angular/core';
-import { Student } from '../student.model';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Student } from '../models/student.model';
+import { StudentService } from '../student.service';
 
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
 })
-export class StudentListComponent implements OnInit{
- 
- students: Student[]=[{id:1,firstName:"Reuven",lastName:"Cohen",status:"active",avg:50},
-                      {id:2,firstName:"Shimon",lastName:"Levi",status:"active",avg:95},
-                      {id:3,firstName:"Yehuda",lastName:"Israeli",status:"inactive",departureDate:new Date(2020,10,10),avg:100}]
-DeleteStudent(student: Student){
-  let indexToDelete=this.students.indexOf(student);
-  this.students.splice(indexToDelete,1);
-}
-  selectedStudent: Student | undefined;
+export class StudentListComponent implements OnInit {
+
+  students!: Student[] //= this._studentService.getStudents()
+  // [new Student( 1,  "Reuven",  "Cohen",  "active",  50,3,3,[{"testId": 1, "testDate": new Date(), "description": "test 125623", "mark": 80}] ),
+  // new Student( 2,  "Shimon",  "Levi",  "active", 90 ),
+  // new Student( 3,  "Yehuda",  "Israeli", "inactive", 100 )]
+  selectedStudent!: Student;
+
+  @Output()
+  onFocusStudent: EventEmitter<Student>=new EventEmitter();
   
-ShowDetails(StudentToShow:Student){
-  this.selectedStudent=StudentToShow;
-}
-addStudent(){
-    this.selectedStudent=new Student((this.students.length)+1,"new student name");
-}
-addNewStudentToList(studentToAdd: Student){ 
-  this.students.push(studentToAdd);
-  this.selectedStudent=undefined;
-}
-//delById(e:any){
-// search(e.id);
-//}
-//search(str:string){
-  
-//}
- constructor(){
-  
- }
- ngOnInit(): void {
-   
- }
+  focusStudent(s:Student){
+    this.selectedStudent=s;
+    this.onFocusStudent.emit(this.selectedStudent);
+   }
+  DeleteStudent(student: Student) {
+    let indexToDelete = this.students.indexOf(student);
+    this.students.splice(indexToDelete, 1);
+  }
+
+  ShowDetails(StudentToShow: Student) {
+    this.selectedStudent = StudentToShow;
+  }
+  addStudent() {
+    this.selectedStudent = new Student();
+  }
+  saveStudentToList(studentToSave: Student) {
+    if (studentToSave.id == 0) {
+      let id = (this.students.length) + 1;
+      studentToSave.id = id;
+      this.students.push(new Student( studentToSave.id, studentToSave.firstName, studentToSave.lastName,studentToSave.status,studentToSave.avg));
+      alert("added succsesful" + JSON.stringify(studentToSave));
+    }
+    else {
+      let studentToUpdate = this.students.filter(x => x.id == studentToSave.id)[0];
+      let index = this.students.indexOf(studentToUpdate);
+      this.students[index] = studentToSave;
+    }
+    this.selectedStudent;
+  }
+  constructor(private _studentService:StudentService) {
+  }
+  ngOnInit(): void {
+    this._studentService.getStudentsSlow().then(data=>{this.students=data;})
+  }
 }

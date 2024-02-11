@@ -1,15 +1,15 @@
 <ul class="list-group">
-    <li *ngFor="let student of students" class="list-group-item" 
-    
-    [class.list-group-item-warning]="student.avg>=90">
+    <li *ngFor="let student of students" (click)="focusStudent(student)" class="list-group-item" [ngClass]="{'list-group-item-dark':student.status==='inactive','list-group-item-info':student.avg>=90}" >
         <div class="row">
         <div class="col-1">{{student.id}}</div>
         <div class="col-1">{{student.lastName}}</div>
+        <div class="col-1">{{student.firstName}}</div>
+        <div class="col-1">{{student.status}}</div>
         <div class="col-2">
-            <button (click)="ShowDetails(student)"> Edit</button>
+            <button (click)="ShowDetails(student)">Edit</button>
         </div>
         <div class="col-2">
-            <button (click)="DeleteStudent(student)"> Delete Task</button>
+            <button (click)="DeleteStudent(student)">Delete Task</button>
         </div>
     </div>
     </li>
@@ -19,7 +19,9 @@
     addStudent
 </button> 
 <br>
-<app-student-details [student]="selectedStudent" (onSaveNewStudent)="addNewStudentToList($event)"></app-student-details>
+<!-- <app-student-details [student]="selectedStudent" (onSaveNewStudent)="addNewStudentToList($event)"></app-student-details> -->
+<app-student-details-form-md [student]="selectedStudent" (onSaveStudent)="saveStudentToList($event)"></app-student-details-form-md>
+
 <!--<button (click)="delById($event)">
     DeleteById
 </button>
