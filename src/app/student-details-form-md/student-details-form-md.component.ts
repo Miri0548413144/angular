@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Student, Year } from '../models/student.model';
 import { EDUCATION_PROGRAMS, educationPrograms } from '../models/educationPrograms.model';
@@ -9,11 +9,11 @@ import { StudentService } from '../student.service';
   selector: 'app-student-details-form-md',
   templateUrl: './student-details-form-md.component.html',
 })
-export class StudentDetailsFormMDComponent {
+export class StudentDetailsFormMDComponent implements OnInit{
   edc_prg_list:educationPrograms[]=EDUCATION_PROGRAMS;
   currentYear=Year;
-  private _student!: Student;
-  public getStudent():Student{return this._student;}
+  public _student!: Student;
+  public get student():Student{return this._student;}
   @Input()
   public set student(value:Student){
     this._student=value;
@@ -63,7 +63,10 @@ export class StudentDetailsFormMDComponent {
     return 0;
   }
   constructor(private _studentService: StudentService) { }
-  ngOnInit(): void{}
+  ngOnInit(): void{
+    console.log("this.student");
+    
+  }
 
  }
  function output() {

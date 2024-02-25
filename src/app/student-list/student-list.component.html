@@ -20,7 +20,7 @@
 </button> 
 <br>
 <!-- <app-student-details [student]="selectedStudent" (onSaveNewStudent)="addNewStudentToList($event)"></app-student-details> -->
-<app-student-details-form-md [student]="selectedStudent" (onSaveStudent)="saveStudentToList($event)"></app-student-details-form-md>
+<app-student-details-form-md *ngIf="selectedStudent" [student]="selectedStudent" (onSaveStudent)="saveStudentToList($event)"></app-student-details-form-md>
 
 <!--<button (click)="delById($event)">
     DeleteById

@@ -1,79 +1,80 @@
-<div class="card" *ngIf="student">
-    <div class="card-body">
-        <form [formGroup]="studentForm">
-            <div class="form-group">
-              <label for="name" >first name:</label>
-                <input type="text" class="form-control" id="name" formControlName="firstName">
-                <ng-container>
-                  <div class="alert alert-danger" *ngIf="!studentForm.controls['firstName'].valid">This filed is required</div>
-                </ng-container>
-                <br/>
-                <label for="name" >last name:</label>
-                <input type="text" class="form-control" id="name" formControlName="lastName">
-                <ng-container>
-                  <div class="alert alert-danger" *ngIf="!studentForm.controls['lastName'].valid">This filed is required</div>
-                </ng-container>
-                <br/>
-                <label for="name" >status:</label>
-                <input type="text" class="form-control" id="name" formControlName="status">
-                <ng-container *ngIf="studentForm.controls['status'].errors">
-                  <div class="alert alert-danger" *ngIf="studentForm.controls['status'].hasError('required')">This filed is required</div>
-                  <div class="alert alert-danger" *ngIf="studentForm.controls['status'].hasError('minlength')">min length</div>
-                  <div class="alert alert-danger" *ngIf="studentForm.controls['status'].hasError('maxlength')">max length</div>
-                </ng-container>
-                <div *ngIf="student.status==='inactive'">
-                  <br/>
-                <label for="name" >departure date:</label>
-                <input type="text" class="form-control" id="name" formControlName="departureDate">
-                <ng-container>
-                  <div class="alert alert-danger">This filed is required</div>
-                </ng-container>
-              </div>
-                <br/>
-                <div class="form-group">
-                  <label for="edc_prg_id">Education programs</label>
-                  <select class="form-group" formControlName="prgId">
-                    <option  *ngFor="let prg of edc_prg_list" [value]="prg.prgId">{{prg.proName}}</option>
-                  </select>
-                  <ng-container>
-                    <div class="alert alert-danger" *ngIf="!studentForm.controls['prgId'].valid">This filed is required</div>
-                  </ng-container>
-                </div>
-                <div class="form-group">
-                  <label for="year">year</label>
-                  <br/>
-                  <input type="radio" value="currentYear.A" name="year" formControlName="year"/>A
-                  <br/>
-                  <input type="radio" value="currentYear.B" name="year" formControlName="year"/>B
-                  <br/>
-                  <input type="radio" value="currentYear.C" name="year" formControlName="year"/>C
-                </div>
-            <div [ngSwitch]="studentForm.controls['year'].value">
-              <div *ngSwitchCase="'currentYear.A'">230 days</div>
-              <div *ngSwitchCase="'currentYear.B'">150 days</div>
-              <div *ngSwitchCase="'currentYear.C'">70 days</div>
-              <div *ngSwitchDefault>Year not selected</div>
-            </div>
-            <div *ngIf="student && student.status==='inactive'">
-              <div class="aaa"> Total absence days {{this.total()}} </div>
-              <div class="asd">
-                  <label for="missingFormDate">Date From:</label>
-                  <input [(ngModel)] ="missingFormDate" [ngModelOptions]="{standalone: true}" id="missingFormDate"
-                      type="date">
-              </div>
-              <div class="asd">
-                  <label for="missingDays">Total Days: </label>
-                  <input [(ngModel)]="missingDays" [ngModelOptions]="{standalone: true}" id="missingDays" type="number">
-              </div>
-  
-              {{studentForm.value | json}}
-            </div>
-|     <button type="submit" class="btn btn-primary" (click)="saveNewStudent()"  [disabled]="!studentForm.valid" >save</button>
-            </div>
-          </form>
-       student's details: 
-       <br>
-       {{studentForm.value|json}}
-    </div>
+<div class="card">
+  <div class="card-body">
+    <form [formGroup]="studentForm">
+      <div class="form-group">
+        <label for="name">first name:</label>
+        <input type="text" class="form-control" id="name" formControlName="firstName">
+        <ng-container>
+          <div class="alert alert-danger" *ngIf="!studentForm.controls['firstName'].valid">This filed is required</div>
+        </ng-container>
+        <br />
+        <label for="name">last name:</label>
+        <input type="text" class="form-control" id="name" formControlName="lastName">
+        <ng-container>
+          <div class="alert alert-danger" *ngIf="!studentForm.controls['lastName'].valid">This filed is required</div>
+        </ng-container>
+        <br />
+        <label for="name">status:</label>
+        <input type="text" class="form-control" id="name" formControlName="status">
+        <ng-container *ngIf="studentForm.controls['status'].errors">
+          <div class="alert alert-danger" *ngIf="studentForm.controls['status'].hasError('required')">This filed is
+            required</div>
+          <div class="alert alert-danger" *ngIf="studentForm.controls['status'].hasError('minlength')">min length</div>
+          <div class="alert alert-danger" *ngIf="studentForm.controls['status'].hasError('maxlength')">max length</div>
+        </ng-container>
+        <div *ngIf="student?.status==='inactive'">
+          <br />
+          <label for="name">departure date:</label>
+          <input type="text" class="form-control" id="name" formControlName="departureDate">
+          <ng-container>
+            <div class="alert alert-danger">This filed is required</div>
+          </ng-container>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="edc_prg_id">Education programs</label>
+          <select class="form-group" formControlName="prgId">
+            <option *ngFor="let prg of edc_prg_list" [value]="prg.prgId">{{prg.proName}}</option>
+          </select>
+          <ng-container>
+            <div class="alert alert-danger" *ngIf="!studentForm.controls['prgId'].valid">This filed is required</div>
+          </ng-container>
+        </div>
+        <div class="form-group">
+          <label for="year">year</label>
+          <br />
+          <input type="radio" value="currentYear.A" name="year" formControlName="year" />A
+          <br />
+          <input type="radio" value="currentYear.B" name="year" formControlName="year" />B
+          <br />
+          <input type="radio" value="currentYear.C" name="year" formControlName="year" />C
+        </div>
+        <div [ngSwitch]="studentForm.controls['year'].value">
+          <div *ngSwitchCase="'currentYear.A'">230 days</div>
+          <div *ngSwitchCase="'currentYear.B'">150 days</div>
+          <div *ngSwitchCase="'currentYear.C'">70 days</div>
+          <div *ngSwitchDefault>Year not selected</div>
+        </div>
+        <div *ngIf="student?.status==='inactive'">
+          <div class="aaa"> Total absence days {{this.total()}} </div>
+          <div class="asd">
+            <label for="missingFormDate">Date From:</label>
+            <input [(ngModel)]="missingFormDate" [ngModelOptions]="{standalone: true}" id="missingFormDate" type="date">
+          </div>
+          <div class="asd">
+            <label for="missingDays">Total Days: </label>
+            <input [(ngModel)]="missingDays" [ngModelOptions]="{standalone: true}" id="missingDays" type="number">
+          </div>
+
+          {{studentForm.value | json}}
+        </div>
+        | <button type="submit" class="btn btn-primary" (click)="saveNewStudent()"
+          [disabled]="!studentForm.valid">save</button>
+      </div>
+    </form>
+    student's details:
+    <br>
+    <!-- {{studentForm.value|json}} -->
+  </div>
 </div>
 <!---->
