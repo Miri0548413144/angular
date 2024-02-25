@@ -27,6 +27,7 @@ export class StudentListComponent implements OnInit {
   }
 
   ShowDetails(StudentToShow: Student) {
+    console.log("ghjk");
     this.selectedStudent = StudentToShow;
   }
   addStudent() {

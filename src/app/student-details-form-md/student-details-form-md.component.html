@@ -54,7 +54,21 @@
               <div *ngSwitchCase="'currentYear.C'">70 days</div>
               <div *ngSwitchDefault>Year not selected</div>
             </div>
-            <button type="submit" class="btn btn-primary" (click)="saveNewStudent()"  [disabled]="!studentForm.valid" >save</button>
+            <div *ngIf="student && student.status==='inactive'">
+              <div class="aaa"> Total absence days {{this.total()}} </div>
+              <div class="asd">
+                  <label for="missingFormDate">Date From:</label>
+                  <input [(ngModel)] ="missingFormDate" [ngModelOptions]="{standalone: true}" id="missingFormDate"
+                      type="date">
+              </div>
+              <div class="asd">
+                  <label for="missingDays">Total Days: </label>
+                  <input [(ngModel)]="missingDays" [ngModelOptions]="{standalone: true}" id="missingDays" type="number">
+              </div>
+  
+              {{studentForm.value | json}}
+            </div>
+|     <button type="submit" class="btn btn-primary" (click)="saveNewStudent()"  [disabled]="!studentForm.valid" >save</button>
             </div>
           </form>
        student's details: 

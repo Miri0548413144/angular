@@ -1,3 +1,4 @@
+import { absenceDay } from "./absence.model";
 import { Test } from "./test.module";
 
 export class Student{
@@ -10,7 +11,8 @@ export class Student{
     prgId?:number;
     year?:Year;
     tests?:Test[];
-    constructor(id?:number,fname?: string, lname?: string, status?: string,  avg?: number,prgId?:number, year?: number,tests?:Test[]) {
+    public absenceDays: absenceDay[] = [];
+    constructor(id?:number,fname?: string, lname?: string, status?: string,  avg?: number,prgId?:number, year?: number,tests?:Test[],absenceDays?:absenceDay[]) {
         this.id = id||0;
         this.firstName = fname || "new";
         this.lastName = lname || "student";
@@ -20,6 +22,7 @@ export class Student{
         this.prgId = prgId||1;
         this.year = year || 2;
         this.tests = tests||[{"testId": 1, "testDate": new Date(), "description": "test 1", "mark": 80 }]
+        this.absenceDays=absenceDays||[{"dateStart":new Date(),"countDays":6}];
     }
 }
 export enum Year{
